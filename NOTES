@@ -1,0 +1,14 @@
+SQLITE DATABASE
+
+$ sqlite3 db.sqlite3
+sqlite>  DELETE FROM accounts_assignment WHERE id = 5;
+
+
+Server
+
+$ python3 manage.py makemigrations accounts
+$ python3 manage.py migrate
+$ python3 manage.py runserver
+
+Delete all makemigrations
+$ rm accounts/migrations/0*.py
