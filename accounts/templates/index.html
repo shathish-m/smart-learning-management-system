@@ -1,0 +1,425 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Smart LMS - eLearn</title>
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #fff;
+      color: #212529;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Navbar / Header */
+    .navbar {
+      background-color: #232b39;
+      padding: 1rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 12px rgb(35 43 57 / 0.10);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .navbar .logo {
+      font-family: 'Lexend', sans-serif;
+      color: #fff;
+      font-size: 1.8rem;
+      font-weight: bold;
+      letter-spacing: 2px;
+      text-decoration: none;
+      user-select: none;
+    }
+
+    .navbar ul {
+      list-style: none;
+      display: flex;
+      gap: 2.5rem;
+    }
+
+    .navbar ul li a {
+      color: #fff;
+      font-weight: 600;
+      font-size: 1rem;
+      text-decoration: none;
+      position: relative;
+      padding: 0.2rem 0;
+      transition: color 0.3s;
+      cursor: pointer;
+    }
+
+    .navbar ul li a::after {
+      content: '';
+      position: absolute;
+      width: 0%;
+      height: 2px;
+      bottom: 0;
+      left: 0;
+      background-color: #fff;
+      transition: width 0.3s;
+    }
+
+    .navbar ul li a:hover {
+      color: #fff;
+      opacity: 0.8;
+    }
+
+    .navbar ul li a:hover::after {
+      width: 100%;
+    }
+
+    /* Coursera-like Banner Section */
+    .coursera-banner {
+      background: linear-gradient(90deg, #f3f6fd 0%, #ffffff 100%);
+      padding: 80px 20px 100px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #0c243c;
+    }
+
+    .coursera-banner .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 3rem;
+      flex-wrap: wrap;
+    }
+
+    .coursera-banner .text-content {
+      flex: 1 1 400px;
+      max-width: 600px;
+    }
+
+    .coursera-banner h1 {
+      font-size: clamp(2.5rem, 5vw, 3.5rem);
+      font-weight: 700;
+      margin-bottom: 1rem;
+      line-height: 1.1;
+    }
+
+    .coursera-banner p {
+      font-size: 1.15rem;
+      margin-bottom: 2rem;
+      color: #33475b;
+    }
+
+    .coursera-banner .btn-primary {
+      background-color: #0056d2;
+      color: white;
+      padding: 0.85rem 2.5rem;
+      border-radius: 4px;
+      font-weight: 700;
+      font-size: 1rem;
+      text-decoration: none;
+      display: inline-block;
+      box-shadow: 0 4px 12px rgb(0 86 210 / 0.3);
+      transition: background-color 0.3s ease;
+      user-select: none;
+    }
+
+    .coursera-banner .btn-primary:hover,
+    .coursera-banner .btn-primary:focus {
+      background-color: #003a96;
+      color: white;
+      outline: none;
+    }
+
+    .coursera-banner .image-content {
+      flex: 1 1 400px;
+      max-width: 550px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .coursera-banner .image-content img,
+    .coursera-banner .image-content svg {
+      width: 100%;
+      max-width: 420px;
+      height: auto;
+      object-fit: contain;
+      user-select: none;
+      pointer-events: none;
+      display: block;
+    }
+
+    /* Explore Courses Section */
+    .courses-section {
+      padding: 2rem 3rem 4rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .courses-section h2 {
+      font-size: 2.5rem;
+      font-weight: 900;
+      color: #232b39;
+      margin-bottom: 3rem;
+      letter-spacing: 1.5px;
+      font-family: 'Lexend', sans-serif;
+    }
+
+    .course-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2.2rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .course-card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 10px 20px rgb(0 0 0 / 0.08);
+      width: 320px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.35s;
+      cursor: pointer;
+      border: 1px solid #f7f7f7;
+    }
+
+    .course-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgb(35 43 57 / 0.17);
+    }
+
+    .course-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-bottom: 3px solid #232b39;
+      transition: transform 0.4s;
+    }
+
+    .course-card:hover img {
+      transform: scale(1.05);
+    }
+
+    .course-content {
+      padding: 1.4rem 1.8rem 2rem;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: stretch;
+    }
+
+    .course-content h3 {
+      font-size: 1.25rem;
+      color: #232b39;
+      font-weight: 700;
+      margin-bottom: 0.7rem;
+      letter-spacing: 0.5px;
+      text-align: left;
+    }
+
+    .course-content p {
+      font-size: 0.95rem;
+      line-height: 1.4;
+      color: #4b5563;
+      margin-bottom: 1.4rem;
+      flex-grow: 1;
+      text-align: left;
+    }
+
+    .enroll-btn {
+      background-color: #A435F0;
+      color: white;
+      padding: 0.65rem 1.5rem;
+      border: none;
+      border-radius: 30px;
+      font-size: 0.96rem;
+      font-weight: 700;
+      text-decoration: none;
+      text-align: center;
+      display: inline-block;
+      margin: 0 auto;
+      transition: background-color 0.3s, box-shadow 0.3s;
+      box-shadow: 0 3px 8px rgb(164 53 240 / 0.15);
+      user-select: none;
+      cursor: pointer;
+      max-width: fit-content;
+    }
+
+    .enroll-btn:hover {
+      background-color: #8710d8;
+      box-shadow: 0 6px 20px rgb(135 16 216 / 0.18);
+    }
+
+    /* Footer */
+    footer {
+      background-color: #232b39;
+      color: #fff;
+      padding: 1.8rem 3rem;
+      text-align: center;
+      font-size: 0.9rem;
+      font-weight: 500;
+      letter-spacing: 0.2px;
+      user-select: none;
+    }
+
+    footer p+ p {
+      margin-top: 0.3rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .coursera-banner .container {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .coursera-banner .text-content,
+      .coursera-banner .image-content {
+        max-width: 100%;
+      }
+
+      .coursera-banner .image-content {
+        margin-top: 2rem;
+      }
+    }
+
+    @media (max-width: 960px) {
+      .course-row {
+        gap: 1.5rem;
+      }
+
+      .courses-section {
+        padding: 2rem 1.5rem 3rem;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .navbar {
+        padding: 1rem 1.5rem;
+      }
+
+      .navbar ul {
+        gap: 1.2rem;
+      }
+
+      .courses-section h2 {
+        font-size: 2rem;
+      }
+
+      .course-card {
+        width: 100%;
+        max-width: 360px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Header -->
+  <nav class="navbar" role="navigation" aria-label="Primary Navigation">
+    <a href="#" class="logo" aria-label="Smart LMS Home">Smart LMS</a>
+    <ul>
+      <li><a href="#courses-section">Courses</a></li>
+      <li><a href="{% url 'student_login' %}">Student</a></li>
+      <li><a href="{% url 'login' %}">Admin</a></li>
+    </ul>
+  </nav>
+
+  <!-- Coursera-like Banner Section with Illustration -->
+  <section class="coursera-banner" aria-label="Welcome Banner">
+    <div class="container banner-content">
+      <div class="text-content">
+        <h1>Learn the Skills to Advance Your Career</h1>
+        <p>Join millions of learners from around the world mastering new skills.</p>
+        <a href="{% url 'student_login' %}" class="btn-primary">Get Started</a>
+      </div>
+      <div class="image-content" aria-hidden="true">
+        <!-- Replace 'banner.svg' with your actual image path -->
+        <img src="/media/images/banner.svg" alt="Online Education Illustration" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Explore Courses -->
+  <section id="courses-section" class="courses-section" aria-labelledby="courses-heading">
+    <h2 id="courses-heading">Explore Courses</h2>
+    <div class="course-row">
+      <article class="course-card" tabindex="0" aria-label="Python for Beginners course">
+        <img src="/media/images/python.jpeg" alt="Python course thumbnail" />
+        <div class="course-content">
+          <h3>Python for Beginners</h3>
+          <p>Start coding with Python and build real apps.</p>
+          <a href="#" class="enroll-btn" role="button">Enroll</a>
+        </div>
+      </article>
+      <article class="course-card" tabindex="0" aria-label="AI and Machine Learning course">
+        <img src="/media/images/aiml.png" alt="AI and Machine Learning course thumbnail" />
+        <div class="course-content">
+          <h3>AI & Machine Learning</h3>
+          <p>Understand models, algorithms and neural networks.</p>
+          <a href="#" class="enroll-btn" role="button">Enroll</a>
+        </div>
+      </article>
+      <article class="course-card" tabindex="0" aria-label="Full Stack Web Development course">
+        <img src="/media/images/full_stack.webp" alt="Full Stack Web Development course thumbnail" />
+        <div class="course-content">
+          <h3>Full Stack Web Dev</h3>
+          <p>Build responsive websites and powerful backends.</p>
+          <a href="#" class="enroll-btn" role="button">Enroll</a>
+        </div>
+      </article>
+    </div>
+    <div class="course-row">
+      <article class="course-card" tabindex="0" aria-label="Data Science course">
+        <img src="/media/images/data_science.jpg" alt="Data Science course thumbnail" />
+        <div class="course-content">
+          <h3>Data Science</h3>
+          <p>Explore data analysis, stats and ML tools.</p>
+          <a href="#" class="enroll-btn" role="button">Enroll</a>
+        </div>
+      </article>
+      <article class="course-card" tabindex="0" aria-label="Natural Language Processing course">
+        <img src="/media/images/nlp.webp" alt="Natural Language Processing course thumbnail" />
+        <div class="course-content">
+          <h3>Natural Language Processing</h3>
+          <p>Work with language data using AI techniques.</p>
+          <a href="#" class="enroll-btn" role="button">Enroll</a>
+        </div>
+      </article>
+      <article class="course-card" tabindex="0" aria-label="ChatGPT and Generative AI course">
+        <img src="/media/images/chatgpt.jpeg" alt="ChatGPT and Generative AI course thumbnail" />
+        <div class="course-content">
+          <h3>ChatGPT & Generative AI</h3>
+          <p>Learn prompt engineering and build smart AI apps.</p>
+          <a href="#" class="enroll-btn" role="button">Enroll</a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 Smart LMS Platform</p>
+    <p>Developed by Shathish</p>
+  </footer>
+</body>
+
+</html>
