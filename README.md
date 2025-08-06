@@ -1,7 +1,6 @@
 # Smart Learning Management System using Django Framework
 
 <img width="1364" height="700" alt="Picture" src="https://github.com/shathish-m/smart-learning-management-system/blob/main/screenshots/student%20home%20page" />
-https://github.com/shathish-m/smart-learning-management-system/blob/main/screenshots/
 
 ## Abstract
 
